@@ -1,12 +1,19 @@
 from url_scraper import url_scraper
 from lyrics_scraper import BrassensSong
 
+
 urls = url_scraper()
 songs = []
-for url in urls:
-    print("Ajout de " + url)
-    songs.append(BrassensSong(url))
+with open("input.txt", "w") as text_file:
+    for url in urls:
+        text_file.write(" \n")
+        print(" ")
+        for verse in BrassensSong(url).verses:
+            print("Writing : " + verse)
+            text_file.write(verse + '\n')
 
-for song in songs:
+
+
+"""for song in songs:
     print("parcours songs")
-    print(song.title)
+    print(song.title)"""

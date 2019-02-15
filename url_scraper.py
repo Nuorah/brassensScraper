@@ -17,8 +17,8 @@ def url_scraper():
         soups.append(BeautifulSoup(page, 'html.parser'))
     urls = []
     for soup in soups:
-        print("parcours soups")
+
         for link in soup.findAll('a', attrs={'href': re.compile("^https://www.paroles.net/georges-brassens/")}):
-            print("parcours liens")
+
             urls.append(link.get('href'))
     return urls
