@@ -6,9 +6,11 @@ urls = url_scraper()
 songs = []
 with open("input.txt", "w") as text_file:
     for url in urls:
+        print(url)
         text_file.write(" \n")
         print(" ")
-        for verse in BrassensSong(url).verses:
+        song = BrassensSong(url)
+        for verse in song.verses:
             print("Writing : " + verse)
             text_file.write(verse + '\n')
 
