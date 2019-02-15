@@ -16,7 +16,6 @@ class BrassensSong:
         self.page = urlopen(url)
         self.soup = BeautifulSoup(self.page, 'html.parser')
         self.get_verses()
-        self.get_title()
         self.get_words()
 
     def show_soup(self):
@@ -37,6 +36,7 @@ class BrassensSong:
         for elem in lyrics:
             if elem != "":
                 self.verses.append(elem.strip())
+        self.verses.pop(0)
 
     def get_title(self):
         self.title = self.verses[0][22:]
@@ -52,7 +52,6 @@ class BrassensSong:
             for word in verse:
                 flatwords.append(word.lower())
         self.words = flatwords
-
 
 
 
