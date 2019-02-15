@@ -7,51 +7,20 @@ Gets verses and words from lyrics of a George Brassens song from the website www
 Enter the url and the title. Use the url scraper to get all the brassens urls.
 """
 
-class BrassensSong:
-    verses = []
-    words = []
-    title = ""
+def get_lyrics(url):
+    page = urlopen(url)
+    soup = BeautifulSoup(page, 'html.parser')
+    text_by_lines = []
+    if(soup.find_all('td', attrs={'class': 'titre'}) != []):
+        title = soup.find_all('td', attrs={'class': 'titre'})[0].text.strip()
+    else:
+        title = ""
+    for p in soup.findAll('p', attrs={'class': 'texte_chanson'}):
+        for line in p.text.split("\n"):
+            if line.strip() != "":
+                text_by_lines.append(line.strip())
+    return title, text_by_lines
 
-    def __init__(self, url):
-        self.page = urlopen(url)
-        self.soup = BeautifulSoup(self.page, 'html.parser')
-        self.get_verses()
-        self.get_words()
-
-    def show_soup(self):
-        print(self.soup)
-
-    def not_eval(self, string):
-        if string.startswith("eval"):
-            return False
-        return True
-
-    def remove_eval(self, string):
-        return string.split("eval", 1)[0]
-
-    def get_verses(self):
-        lyrics = self.soup.find_all("div", class_="song-text")[0].get_text().split('\n')
-        lyrics = filter(self.not_eval, lyrics)
-        lyrics = map(self.remove_eval, lyrics)
-        for elem in lyrics:
-            if elem != "":
-                self.verses.append(elem.strip())
-        self.verses.pop(0)
-
-    def get_title(self):
-        self.title = self.verses[0][22:]
-        self.title = self.title.split("par Georges Brassens", 1)[0].strip()
-        self.verses.pop(0)
-
-    def get_words(self):
-        for verse in self.verses:
-            self.words.append(re.compile("[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ']+")
-                              .findall(verse))
-        flatwords = []
-        for verse in self.words:
-            for word in verse:
-                flatwords.append(word.lower())
-        self.words = flatwords
 
 
 
