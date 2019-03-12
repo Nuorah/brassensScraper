@@ -13,9 +13,3 @@ with open("input.txt", "w") as text_file:
         for line in text_by_lines[1]:
             print("Writing : " + line)
             text_file.write(line + '\n')
-
-
-
-"""for song in songs:
-    print("parcours songs")
-    print(song.title)"""
